@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>血狼破军拷问器</title>
+    <style>
+        /* 基础样式 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            background: #000;
+        }
+
+        /* 背景图片 */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('background.jpg'); /* 替换为你的图片路径 */
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+
+        /* 按钮样式 */
+        .question-button {
+            position: fixed;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            font-size: 20px;
+            background-color: rgba(220, 53, 69, 0.8);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .question-button:hover {
+            background-color: rgba(220, 53, 69, 1);
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        /* 问题显示区域 */
+        .question-container {
+            position: fixed;
+            bottom: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 2;
+        }
+
+        .question-text {
+            font-size: 24px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin: 10px 0;
+            transition: all 0.5s ease;
+        }
+
+        /* 超大杯特效 */
+        .final-question {
+            font-size: 100px !important;
+            color: #ffcc00 !important;
+            text-shadow: 0 0 20px rgba(255,204,0,0.8);
+            animation: finalScale 2s ease-in-out infinite;
+        }
+
+        @keyframes finalScale {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景图片 -->
+    <div class="background"></div>
+
+    <!-- 按钮 -->
+    <button class="question-button" id="questionBtn">点击按钮回答问题</button>
+
+    <!-- 问题显示区域 -->
+    <div class="question-container" id="questionContainer"></div>
+
+    <script>
+        // 问题列表
+        const questions = [
+            "总伤多少？",
+            "dps多少？",
+            "dph多少？",
+            "回转怎么样？",
+            "对策怎么样？",
+            "吃拐率强不强？",
+            "是不是超大杯？"
+        ];
+
+        // 获取元素
+        const questionBtn = document.getElementById('questionBtn');
+        const questionContainer = document.getElementById('questionContainer');
+
+        // 当前问题索引
+        let currentIndex = 0;
+
+        // 显示问题
+        function showQuestion() {
+            // 清空容器
+            questionContainer.innerHTML = '';
+
+            // 如果是最后一个问题
+            if (currentIndex === questions.length - 1) {
+                const finalQuestion = document.createElement('div');
+                finalQuestion.className = 'question-text final-question';
+                finalQuestion.textContent = questions[currentIndex];
+                questionContainer.appendChild(finalQuestion);
+                return;
+            }
+
+            // 随机显示问题
+            const randomIndex = Math.floor(Math.random() * (questions.length - 1));
+            const questionText = document.createElement('div');
+            questionText.className = 'question-text';
+            questionText.textContent = questions[randomIndex];
+            questionContainer.appendChild(questionText);
+
+            // 更新索引
+            currentIndex++;
+        }
+
+        // 按钮点击事件
+        questionBtn.addEventListener('click', () => {
+            // 如果是最后一个问题，重置
+            if (currentIndex >= questions.length) {
+                currentIndex = 0;
+                questionContainer.innerHTML = '';
+            }
+            showQuestion();
+        });
+
+        // 初始显示
+        showQuestion();
+    </script>
+</body>
+</html>
